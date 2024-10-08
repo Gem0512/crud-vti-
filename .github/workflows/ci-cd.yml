@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+# Kích hoạt workflow khi có thay đổi trên nhánh `main`
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Định nghĩa các job trong pipeline
+jobs:
+  build:
+    # Chạy trên môi trường Ubuntu mới nhất
+    runs-on: ubuntu-latest
+
+    steps:
+      # Bước 1: Checkout mã nguồn từ repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Bước 2: Cài đặt Docker Buildx để build image đa nền tảng
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Bước 3: Đăng nhập vào DockerHub sử dụng GitHub Secrets để lưu thông tin đăng nhập
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Bước 4: Build và push Docker image cho backend từ thư mục `crud-vti-be`
+      - name: Build and push backend Docker image
+        run: |
+          docker build -t your-dockerhub-username/crud-vti-be:latest ./crud-vti-be
+          docker push your-dockerhub-username/crud-vti-be:latest
+
+      # Bước 5: Build và push Docker image cho frontend từ thư mục `crud-vti-fe`
+      - name: Build and push frontend Docker image
+        run: |
+          docker build -t your-dockerhub-username/crud-vti-fe:latest ./crud-vti-fe
+          docker push your-dockerhub-username/crud-vti-fe:latest
+
+      # Bước 6: Triển khai hoặc thực hiện lệnh deploy (có thể tùy chỉnh bước này)
+      - name: Deploy application
+        run: echo "Deploying application..."

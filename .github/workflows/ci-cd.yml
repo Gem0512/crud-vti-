@@ -34,14 +34,14 @@ jobs:
       # Bước 4: Build và push Docker image cho backend từ thư mục `crud-vti-be`
       - name: Build and push backend Docker image
         run: |
-          docker build -t your-dockerhub-username/crud-vti-be:latest ./crud-vti-be
-          docker push your-dockerhub-username/crud-vti-be:latest
+          docker build -t gem0512/crud-vti-be:latest ./crud-vti-be
+          docker push gem0512/crud-vti-be:latest
 
       # Bước 5: Build và push Docker image cho frontend từ thư mục `crud-vti-fe`
       - name: Build and push frontend Docker image
         run: |
-          docker build -t your-dockerhub-username/crud-vti-fe:latest ./crud-vti-fe
-          docker push your-dockerhub-username/crud-vti-fe:latest
+          docker build -t gem0512/crud-vti-fe:latest ./crud-vti-fe
+          docker push gem0512/crud-vti-fe:latest
 
       # Bước 6: Triển khai hoặc thực hiện lệnh deploy (có thể tùy chỉnh bước này)
       - name: Deploy application
